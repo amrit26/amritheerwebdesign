@@ -848,7 +848,23 @@ footer{
   /* Submit button gets its own visual space */
   .form-grid button,
   .form-grid .btn {
-    margin-top: 22px;
+    grid-column: 1 / -1;
+
+    width: 100%;
+    min-height: 52px;
+
+    margin-top: 26px;
+
+    padding: 14px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    text-align: center;
+    font-weight: 800;
   }
 
 
