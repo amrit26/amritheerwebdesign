@@ -18,6 +18,25 @@ body {
   color: var(--ink);
   font-family: Inter, system-ui, sans-serif;
 }
+
+/* ==========================================
+   BUILDER TROWEL CURSOR
+========================================== */
+
+body {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg transform='rotate(-35 20 20)'%3E%3Cpath d='M4 27 L23 14 L30 30 Z' fill='%23c8c5bf' stroke='%232b2018' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M8 26 L23 16' stroke='%23ffffff' stroke-width='1' opacity='.65'/%3E%3Crect x='23' y='12' width='5' height='5' rx='1' fill='%235e5147' stroke='%232b2018' stroke-width='1'/%3E%3Crect x='26' y='5' width='6' height='13' rx='3' fill='%238c5e3c' stroke='%232b2018' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E") 8 29, auto;
+}
+
+
+/* Slightly larger/brighter trowel over clickable items */
+
+a,
+button,
+.btn,
+.light {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 40 40'%3E%3Cg transform='rotate(-35 20 20)'%3E%3Cpath d='M4 27 L23 14 L30 30 Z' fill='%23e1ddd6' stroke='%232b2018' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M8 26 L23 16' stroke='%23ffffff' stroke-width='1.2' opacity='.85'/%3E%3Crect x='23' y='12' width='5' height='5' rx='1' fill='%235e5147' stroke='%232b2018' stroke-width='1'/%3E%3Crect x='26' y='5' width='6' height='13' rx='3' fill='%23a66c43' stroke='%232b2018' stroke-width='1.5'/%3E%3C/g%3E%3C/svg%3E") 9 32, pointer;
+}
+
 a {
   color: inherit;
 }
@@ -335,6 +354,219 @@ footer {
 .foot {
   display: flex;
   justify-content: space-between;
+}
+/* ==========================================
+   CONCRETE CLICK / TAP EFFECT
+========================================== */
+
+.concrete-burst {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  width: 1px;
+  height: 1px;
+
+  pointer-events: none;
+
+  z-index: 99999;
+
+  transform: translate(-50%, -50%);
+}
+
+
+/* DUST CLOUD */
+
+.concrete-dust {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 16px;
+  height: 16px;
+
+  border-radius: 50%;
+
+  background: rgba(198, 189, 178, 0.75);
+
+  box-shadow:
+    0 0 8px rgba(209, 201, 192, 0.8),
+    0 0 20px rgba(171, 161, 151, 0.5);
+
+  transform:
+    translate(-50%, -50%)
+    scale(0);
+
+  animation:
+    concrete-dust
+    620ms
+    ease-out
+    forwards;
+}
+
+
+/* INDIVIDUAL CONCRETE CHUNKS */
+
+.concrete-chunk {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: var(--size);
+  height: var(--size);
+
+  background: var(--chunk-colour);
+
+  border-radius:
+    2px 3px 2px 4px;
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.35);
+
+  opacity: 0;
+
+  transform:
+    translate(-50%, -50%)
+    rotate(var(--start-rot));
+
+  animation:
+    concrete-chunk
+    650ms
+    cubic-bezier(.15,.65,.25,1)
+    forwards;
+}
+
+
+/* SMALL DUST PARTICLES */
+
+.concrete-speck {
+  position: absolute;
+
+  left: 0;
+  top: 0;
+
+  width: 3px;
+  height: 3px;
+
+  border-radius: 50%;
+
+  background: #d7cec4;
+
+  opacity: 0;
+
+  animation:
+    concrete-speck
+    520ms
+    ease-out
+    forwards;
+}
+
+
+/* DUST EXPANDS THEN DISAPPEARS */
+
+@keyframes concrete-dust {
+
+  0% {
+    opacity: 0.9;
+
+    transform:
+      translate(-50%, -50%)
+      scale(0.1);
+  }
+
+  45% {
+    opacity: 0.55;
+
+    transform:
+      translate(-50%, -50%)
+      scale(2.2);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      scale(4);
+  }
+
+}
+
+
+/* CONCRETE CHUNKS FLY OUT */
+
+@keyframes concrete-chunk {
+
+  0% {
+    opacity: 1;
+
+    transform:
+      translate(-50%, -50%)
+      translate(0, 0)
+      rotate(var(--start-rot))
+      scale(1);
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      translate(
+        var(--dx),
+        var(--dy)
+      )
+      rotate(
+        var(--end-rot)
+      )
+      scale(0.35);
+  }
+
+}
+
+
+/* SMALLER DUST SPECKS */
+
+@keyframes concrete-speck {
+
+  0% {
+    opacity: 0.9;
+
+    transform:
+      translate(-50%, -50%)
+      translate(0, 0)
+      scale(1);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translate(-50%, -50%)
+      translate(
+        var(--dx),
+        var(--dy)
+      )
+      scale(0);
+  }
+
+}
+
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .concrete-burst {
+    display: none;
+  }
+
 }
 @media (max-width: 900px) {
   nav a:not(.light) {
